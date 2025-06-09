@@ -52,27 +52,94 @@ tar -xvf linux-6.12.tar.xz
 cd linux-6.12
 ```
 
-3. Configure the kernel:
+3. Copy the current kernel configuration and launch interactive configuration menu:
 
 ```bash
 cp /boot/config-$(uname -r) .config
 make menuconfig
 ```
 
-Enable or verify:
+## Kernel Configuration Checklist (using `make menuconfig`)
 
-* Virtualization → Enable KVM and related modules
-* File Systems → Enable Plan 9 Resource Sharing (9P2000) and 9P Virtio transport
-* Device Drivers → Enable PCI driver for IVSHMEM
+To set up KVM virtualization and enable inter-VM communication using Virtio and IVSHMEM, you'll need to enable several features in the kernel. You can do this using the `make menuconfig` interface.
 
-4. Build the kernel and modules:
+Enable each option either as **built-in** (`[*]`) or as a **module** (`<M>`), depending on your setup and preferences.
+
+---
+
+### KVM and Virtualization Support
+
+- **KVM (Kernel-based Virtual Machine)** – `[*]`  
+  This is the core component needed for running virtual machines on Linux.
+
+- **KVM for Intel or AMD processors** – `[*]`  
+  Choose the option that matches your CPU type (Intel or AMD). It’s usually found under the same menu as KVM.
+
+---
+
+### Guest-to-Host Communication (Virtio Drivers)
+
+- **Virtio drivers** – `<M>`  
+  Located in: `Device Drivers → Virtio drivers`. These are used for efficient communication between the host and guest VMs.
+
+- **Virtio PCI** – `<M>`  
+  Located in: `Device Drivers → PCI support → Virtio PCI`. Required if your system uses PCI-based virtio devices.
+
+- **Virtio balloon driver** – `<M>`  
+  Lets guest machines return unused memory to the host.
+
+- **Virtio block/net drivers** – `<M>`  
+  Enable these if your virtual machines use virtual hard drives or network interfaces.
+
+---
+
+### Shared Memory and IPC Support
+
+- **System V IPC** – `[*]`  
+  Located in: `General setup → System V IPC`. This is necessary for shared memory and other inter-process communication features.
+
+- **POSIX message queues** – `[*]`  
+  Located in: `General setup` . Useful for signaling or passing messages between processes using shared memory.
+
+- **/dev/shm support** – `[*]`  
+  This is typically enabled by default on systems using glibc. It's required for user-space shared memory access .
+
+---
+
+### IVSHMEM (PCI-based Shared Memory)
+
+- **PCI driver for IVSHMEM** – `<M>` or `[*]`  
+  Go to: `Device Drivers → Misc Devices → PCI driver for Inter-VM shared memory device`. This enables memory-based communication between virtual machines via the IVSHMEM interface.
+
+Enable vDPA-related option as `<M>`
+
+save the configuration
+---
+
+### Notes
+
+- Use `[*]` if you want the feature built directly into the kernel.
+- Use `<M>` if you prefer it to be a loadable module (safer and more flexible for experimentation).
+
+
+4. Modify the configuration to disable trusted key enforcement:
+
+```bash
+sudo chmod +x scripts/config
+sudo scripts/config --disable SYSTEM_TRUSTED_KEYS
+sudo scripts/config --disable SYSTEM_REVOCATION_KEYS
+sudo scripts/config --set-str CONFIG_SYSTEM_TRUSTED_KEYS ""
+sudo scripts/config --set-str CONFIG_SYSTEM_REVOCATION_KEYS ""
+```
+  
+5. Build the kernel and modules:
 
 ```bash
 make -j$(nproc)
-make modules_install
+sudo make modules_install
 ```
 
-5. Install the New Kernel:
+6. Install the New Kernel:
 
 ```bash
 sudo make install
