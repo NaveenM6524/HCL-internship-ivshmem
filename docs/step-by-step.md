@@ -23,6 +23,7 @@ This setup enables real-time communication and data sharing between two virtual 
 
    * Turn off BitLocker
    * Turn off Secure Boot in BIOS/UEFI
+   * Enable virtualization support in BIOS
    * Allocate free space in Windows for Ubuntu installation
 2. Download Ubuntu ISO from: [https://ubuntu.com/download/desktop](https://ubuntu.com/download/desktop)
 3. Create a bootable USB drive using Rufus
