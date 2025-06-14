@@ -105,7 +105,7 @@ Enable each option either as **built-in** (`[*]`) or as a **module** (`<M>`), de
 
 Enable vDPA-related option as `<M>`
 
-save the configuration
+Save the configuration.
 
 ### Notes
 
@@ -113,12 +113,6 @@ save the configuration
 - Use `<M>` if you prefer it to be a loadable module (safer and more flexible for experimentation).
   
 ---
-
-### Notes
-
-- Use `[*]` if you want the feature built directly into the kernel.
-- Use `<M>` if you prefer it to be a loadable module (safer and more flexible for experimentation).
-
 
 4. Modify the configuration to disable trusted key enforcement:
 
