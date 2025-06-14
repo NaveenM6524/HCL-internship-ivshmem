@@ -274,11 +274,9 @@ sudo chmod 666 /dev/shm/ivshmem
 ```bash
 lspci | grep -i memory
 lspci -vv -s <device-id>  # Get region 2 memory address
-
-# IMPORTANT:
-# Make sure to replace the memory address (e.g., 0x383800000000 or 0xf4000000) in your code
-# with the actual address obtained from this command.
 ```
+IMPORTANT:
+Make sure to replace the memory address (e.g., 0x383800000000 or 0xf4000000) in your code with the actual address obtained from this command.
 
 ### Install devmem2:
 
