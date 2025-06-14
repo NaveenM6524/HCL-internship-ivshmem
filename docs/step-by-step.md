@@ -102,15 +102,6 @@ Enable each option either as **built-in** (`[*]`) or as a **module** (`<M>`), de
 - **POSIX message queues** – `[*]`  
   Located in: `General setup` . Useful for signaling or passing messages between processes using shared memory.
 
-- **/dev/shm support** – `[*]`  
-  This is typically enabled by default on systems using glibc. It's required for user-space shared memory access .
-
----
-
-### IVSHMEM (PCI-based Shared Memory)
-
-- **PCI driver for IVSHMEM** – `<M>` or `[*]`  
-  Go to: `Device Drivers → Misc Devices → PCI driver for Inter-VM shared memory device`. This enables memory-based communication between virtual machines via the IVSHMEM interface.
 
 Enable vDPA-related option as `<M>`
 
@@ -160,12 +151,39 @@ uname -r  # Verify new kernel
 
 ### Commands:
 
+1. Check if your CPU supports virtualization:
+```bash
+egrep -c '(vmx|svm)' /proc/cpuinfo
+```
+if the output is greater than 0, your CPU supports virtualization.
+if the output is 0, your CPU does not support virtualization. Enable virtualization in BIOS/UEFI settings.
+
+2. Install KVM and required packages:
 ```bash
 sudo apt update
 sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+```
+
+3. Check KVM installaion:
+```bash
 kvm --version
+```
+
+4. Check if KVM modules are loaded:
+```bash
 lsmod | grep kvm
-egrep -c '(vmx|svm)' /proc/cpuinfo
+```
+
+5. Add current user to the libvirt and kvm group:
+```bash
+sudo usermod -aG libvirt $(whoami)
+sudo usermod -aG kvm $(whoami)
+sudo reboot
+```
+
+6.Enable and start the libvirtd service:
+```bash
+sudo systemctl enable --now libvirtd
 ```
 
 ---
