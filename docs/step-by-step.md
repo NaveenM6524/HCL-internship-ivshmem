@@ -106,6 +106,7 @@ Enable each option either as **built-in** (`[*]`) or as a **module** (`<M>`), de
 Enable vDPA-related option as `<M>`
 
 save the configuration
+
 ---
 
 ### Notes
