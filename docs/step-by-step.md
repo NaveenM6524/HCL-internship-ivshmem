@@ -107,6 +107,11 @@ Enable vDPA-related option as `<M>`
 
 save the configuration
 
+### Notes
+
+- Use `[*]` if you want the feature built directly into the kernel.
+- Use `<M>` if you prefer it to be a loadable module (safer and more flexible for experimentation).
+  
 ---
 
 ### Notes
