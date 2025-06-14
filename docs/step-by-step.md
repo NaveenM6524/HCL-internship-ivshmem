@@ -60,7 +60,7 @@ cp /boot/config-$(uname -r) .config
 make menuconfig
 ```
 
-## Kernel Configuration Checklist (using `make menuconfig`)
+### Kernel Configuration Checklist (using `make menuconfig`)
 
 To set up KVM virtualization and enable inter-VM communication using Virtio and IVSHMEM, you'll need to enable several features in the kernel. You can do this using the `make menuconfig` interface.
 
