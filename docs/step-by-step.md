@@ -82,15 +82,10 @@ Enable each option either as **built-in** (`[*]`) or as a **module** (`<M>`), de
 
 - **Virtio drivers** – `<M>`  
   Located in: `Device Drivers → Virtio drivers`. These are used for efficient communication between the host and guest VMs.
-
-- **Virtio PCI** – `<M>`  
-  Located in: `Device Drivers → PCI support → Virtio PCI`. Required if your system uses PCI-based virtio devices.
+  
 
 - **Virtio balloon driver** – `<M>`  
   Lets guest machines return unused memory to the host.
-
-- **Virtio block/net drivers** – `<M>`  
-  Enable these if your virtual machines use virtual hard drives or network interfaces.
 
 ---
 
@@ -101,9 +96,6 @@ Enable each option either as **built-in** (`[*]`) or as a **module** (`<M>`), de
 
 - **POSIX message queues** – `[*]`  
   Located in: `General setup` . Useful for signaling or passing messages between processes using shared memory.
-
-
-Enable vDPA-related option as `<M>`
 
 Save the configuration.
 
