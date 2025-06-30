@@ -222,7 +222,7 @@ chmod 777 /home/naveen/shared_folder
 
 ### Edit VM Config (for both VMs):
 Select OS -> Open -> View ->  Overview -> XML. 
-Add the following xml code at the end of the xml configuration before ```</devices>`` and apply the changes.
+Add the following xml code at the end of the xml configuration before ```xml </devices>`` and apply the changes.
 
 ```xml
 <filesystem type='mount' accessmode='passthrough'>
