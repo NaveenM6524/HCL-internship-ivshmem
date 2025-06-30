@@ -276,7 +276,7 @@ For example:
 08:01.0 RAM memory: Red Hat, Inc. Inter-VM shared memory (rev 01)
 ```
 08:01.0 is the ivshmem device PCI address.
-Replave 08:01.0 it with your PCI address.
+Replace 08:01.0 it with your PCI address.
 
 ```bash
 sudo lspci -vvv -s 08:01.0  # Get region 2 memory address
