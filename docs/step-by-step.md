@@ -269,7 +269,16 @@ Add the following xml code at the end of the xml configuration before devices an
 
 ```bash
 lspci | grep -i memory
-lspci -vv -s <device-id>  # Get region 2 memory address
+```
+Copy the ivshmem device PCI address.
+For example:
+```
+08:01.0 RAM memory: Red Hat, Inc. Inter-VM shared memory (rev 01)
+```
+08:01.0 is the ivshmem device PCI address.
+
+```bash
+sudo lspci -vvv -s 08:01.0  # Get region 2 memory address
 ```
 IMPORTANT:
 Make sure to replace the memory address (e.g., 0x383800000000 or 0xf4000000) in your code with the actual address obtained from this command.
@@ -287,6 +296,8 @@ In Debian (guest):
 
 Open
 ```bash
+sudo apt update
+sudo apt install gcc
 nano devmem2.c
 ```
 
@@ -340,7 +351,7 @@ MAP_SHARED, fd, target_addr & ~MAP_MASK);
 
 ```bash
 gcc devmem2.c -o devmem2
-sudo ./devmem2 0x383800000000
+sudo ./devmem2 0xf4000000
 ```
 
 **Memory Address value differs for Ubuntu and Debian, so enter the correct address in each guest OS**
