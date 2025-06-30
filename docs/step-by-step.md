@@ -221,8 +221,8 @@ chmod 777 /home/naveen/shared_folder
 ```
 
 ### Edit VM Config (for both VMs):
-Select OS -> Open -> View ->  Overview -> XML 
-Add the following xml code at the end before </devices> and apply the changes.
+Select OS -> Open -> View ->  Overview -> XML. 
+Add the following xml code at the end of the xml configuration before </devices> and apply the changes.
 
 ```xml
 <filesystem type='mount' accessmode='passthrough'>
@@ -231,11 +231,11 @@ Add the following xml code at the end before </devices> and apply the changes.
 </filesystem>
 ```
 ```xml
-    <shmem name="ivshmem">
-      <model type="ivshmem-plain"/>
-      <size unit="M">64</size>
-      <address type="pci" domain="0x0000" bus="0x10" slot="0x01" function="0x0"/>
-    </shmem>
+<shmem name="ivshmem">
+  <model type="ivshmem-plain"/>
+  <size unit="M">64</size>
+  <address type="pci" domain="0x0000" bus="0x10" slot="0x01" function="0x0"/>
+</shmem>
 ```
 
 ### Inside Each Guest:
