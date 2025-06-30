@@ -321,27 +321,27 @@ int main(int argc, char **argv) {
  uint32_t read_result;
  off_t target_addr;
  if (argc < 2) {
- printf("Usage: %s <physical address>\n", argv[0]);
- return -1;
+   printf("Usage: %s <physical address>\n", argv[0]);
+   return -1;
  }
  target = strtoull(argv[1], 0, 0);
  target_addr = target;
  if ((fd = open("/dev/mem", O_RDWR | O_SYNC)) == -1) {
- perror("open /dev/mem");
- return -1;
+   perror("open /dev/mem");
+   return -1;
  }
  map_base = mmap(0, MAP_SIZE, PROT_READ | PROT_WRITE, 
 MAP_SHARED, fd, target_addr & ~MAP_MASK);
  if (map_base == (void *) -1) {
- perror("mmap");
- close(fd);
- return -1;
+   perror("mmap");
+   close(fd);
+   return -1;
  }
  virt_addr = map_base + (target_addr & MAP_MASK);
  read_result = *((uint32_t *) virt_addr);
  printf("Value at address 0x%llx: 0x%08x\n", target, read_result);
  if (munmap(map_base, MAP_SIZE) == -1) {
- perror("munmap");
+   perror("munmap");
  }
  close(fd);
  return 0;
@@ -392,13 +392,13 @@ int main() {
 PROT_WRITE, MAP_SHARED, fd, SHM_ADDR);
  if (shm == MAP_FAILED) { perror("mmap"); return -1; }
  while (1) {
- if (shm[0] == 0) {
- uint32_t data = rand() % 1000;
- shm[1] = data;
- shm[0] = 1;
- printf("Producer: Produced %d\n", data);
- }
- usleep(500000);
+   if (shm[0] == 0) {
+     uint32_t data = rand() % 1000;
+     shm[1] = data;
+     shm[0] = 1;
+     printf("Producer: Produced %d\n", data);
+   }  
+   usleep(500000);
  }
  munmap((void *)shm, 4096);
  close(fd);
@@ -423,12 +423,12 @@ int main() {
 PROT_WRITE, MAP_SHARED, fd, SHM_ADDR);
  if (shm == MAP_FAILED) { perror("mmap"); return -1; }
  while (1) {
- if (shm[0] == 1) {
- uint32_t data = shm[1];
- printf("Consumer: Consumed %d\n", data);
- shm[0] = 0;
- }
- usleep(500000);
+   if (shm[0] == 1) {
+     uint32_t data = shm[1];
+     printf("Consumer: Consumed %d\n", data);
+     shm[0] = 0;
+   }
+   usleep(500000);
  }
  munmap((void *)shm, 4096);
  close(fd);
