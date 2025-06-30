@@ -271,7 +271,7 @@ Add the following xml code at the end of the xml configuration before devices an
 lspci | grep -i memory
 ```
 Copy the ivshmem device PCI address.
-For example:
+Example output:
 ```
 08:01.0 RAM memory: Red Hat, Inc. Inter-VM shared memory (rev 01)
 ```
@@ -279,18 +279,21 @@ For example:
 Replace 08:01.0 it with your PCI address.
 
 ```bash
-sudo lspci -vvv -s 08:01.0  # Get region 2 memory address
+sudo lspci -vvv -s <PCI_ADDRESS> 
 ```
-IMPORTANT:
-Make sure to replace the memory address (e.g., 0x383800000000 or 0xf4000000) in your code with the actual address obtained from this command.
+Note Region 2 address. Replace it in the below programs where <MEMORY_ADDRESS> is used.
+
 
 ### Install devmem2:
+
+Replace <MEMORY_ADDRESS> with actual address found via lspci -vvv.
 
 In Ubuntu (guest):
 
 ```bash
 sudo apt install
 sudo apt install devmem2
+sudo devmem2 <MEMORY_ADDRESS> w 0x12345678
 ```
 
 In Debian (guest):
@@ -352,22 +355,13 @@ MAP_SHARED, fd, target_addr & ~MAP_MASK);
 
 ```bash
 gcc devmem2.c -o devmem2
-sudo ./devmem2 0xf4000000
+sudo ./devmem2 <MEMORY_ADDRESS>
 ```
-
-**Memory Address value differs for Ubuntu and Debian, so enter the correct address in each guest OS**
 
 ### Write from Ubuntu:
 
-```bash
-sudo devmem2 0x383800000000 w 0x12345678
-```
 
-### Read from Debian:
-
-```bash
-sudo devmem2 0xf40000000
-```
+**Memory Address value differs for Ubuntu and Debian, so enter the correct address in each guest OS**
 
 ---
 
@@ -383,7 +377,8 @@ sudo devmem2 0xf40000000
 #include <unistd.h>
 #include <stdint.h>
 #include <time.h>
-#define SHM_ADDR 0x383800000000 // ubuntu address
+#define SHM_ADDR 0xXXXXXXX  // Replace with actual memory address
+
 int main() {
  srand(time(NULL));
  int fd = open("/dev/mem", O_RDWR | O_SYNC);
@@ -415,7 +410,7 @@ PROT_WRITE, MAP_SHARED, fd, SHM_ADDR);
 #include <sys/mman.h>
 #include <unistd.h>
 #include <stdint.h>
-#define SHM_ADDR 0xf4000000 // debian address
+#define SHM_ADDR 0xYYYYYYY  // Replace with actual memory address
 int main() {
  int fd = open("/dev/mem", O_RDWR | O_SYNC);
  if (fd < 0) { perror("open"); return -1; }
