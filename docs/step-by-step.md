@@ -285,8 +285,9 @@ sudo apt install devmem2
 
 In Debian (guest):
 
+Open
 ```bash
-open nano devmem2.c
+nano devmem2.c
 ```
 
 Run the following code:
