@@ -26,7 +26,6 @@ This project focuses on system-level programming in Linux, covering key areas su
 | File                   | Description                                                    |
 |------------------------|----------------------------------------------------------------|
 | `README.md`            | Overview of the project and setup                              |
-| `project_log.md`       | Breakdown of tasks and progress notes                          |
 | `docs/step-by-step.md` | Detailed technical instructions and command references         |
 
 ---
